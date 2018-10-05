@@ -81,8 +81,10 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
 
             descriptor.MethodInfo = controllerType.GetMethod(actionName);
             if (descriptor.MethodInfo == null)
+            {
                 throw new InvalidOperationException(
-                    string.Format("{0} is not declared in {1}", actionName, controllerType));
+                   string.Format("{0} is not declared in {1}", actionName, controllerType));
+            }
 
             descriptor.Parameters = new List<ParameterDescriptor>();
             foreach (var parameterInfo in descriptor.MethodInfo.GetParameters())
@@ -94,7 +96,7 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
                     ParameterInfo = parameterInfo,
                     BindingInfo = BindingInfo.GetBindingInfo(parameterInfo.GetCustomAttributes(false))
                 });
-            };
+            }
 
             descriptor.ControllerTypeInfo = controllerType.GetTypeInfo();
 
@@ -123,7 +125,8 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
             var provider = new DefaultApiDescriptionProvider(
                 Options.Create(options),
                 constraintResolver.Object,
-                CreateModelMetadataProvider()
+                CreateModelMetadataProvider(),
+                new ActionResultTypeMapper()
             );
 
             provider.OnProvidersExecuting(context);

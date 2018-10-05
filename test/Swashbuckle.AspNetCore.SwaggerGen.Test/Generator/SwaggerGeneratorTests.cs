@@ -138,7 +138,6 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
         [InlineData("collection", nameof(FakeController.AcceptsStringFromQuery), "query")]
         [InlineData("collection", nameof(FakeController.AcceptsStringFromHeader), "header")]
         [InlineData("collection", nameof(FakeController.AcceptsStringFromForm), "formData")]
-        [InlineData("collection", nameof(FakeController.AcceptsStringFromQuery), "query")]
         public void GetSwagger_GeneratesNonBodyParameters_ForPathQueryHeaderOrFormBoundParams(
             string routeTemplate,
             string actionFixtureName,
@@ -611,9 +610,8 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
 
             var param = swagger.Paths["/{version}/collection"].Get.Parameters.First();
             Assert.Equal("version", param.Name);
-            Assert.Equal(true, param.Required);
+            Assert.True(param.Required);
         }
-
 
         [Fact]
         public void GetSwagger_ThrowsInformativeException_IfActionsHaveNoHttpBinding()
